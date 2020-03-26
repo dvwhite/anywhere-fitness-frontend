@@ -5,7 +5,10 @@ import { axiosWithAuth } from "./../utils";
 import {
   LOGIN_START,
   LOGIN_SUCCESS,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  REGISTER_START,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL
 } from "./../constants/ActionTypes";
 
 // Login
@@ -14,14 +17,14 @@ import {
   username*
   password*
 */
-export const login = (username, password) => dispatch => {
+export const login = (user, history) => dispatch => {
   dispatch({ type: LOGIN_START });
   axios
-    .post("/api/auth/login", { username, password })
+    .post("/api/auth/login", user)
     .then(res => {
-      console.log(res);
       localStorage.setItem('token', res.data.token);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+      history.push(`/user/${res.data.id}`)
     })
     .catch(err => {
       dispatch({ type: LOGIN_FAIL, payload: err.response });
@@ -38,6 +41,18 @@ export const login = (username, password) => dispatch => {
   email
   roleId*
 */
+export const register = (newUser, history) => dispatch => {
+  dispatch({ type: REGISTER_START });
+  axios
+    .post("/api/auth/register", newUser)
+    .then(res => {
+      dispatch({ type: REGISTER_SUCCESS, payload: res.data });
+      history.push(`/login`);
+    })
+    .catch(err => {
+      dispatch({ type: REGISTER_FAIL, payload: err.response });
+    });
+};
 
 // Delete category
 // DELETE /api/category/:id
