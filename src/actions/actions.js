@@ -1,5 +1,5 @@
 import axios from "axios";
-import { axiosWithAuth } from "./../utils";
+import { axiosWithAuth } from "./../utils/axiosWithAuth";
 
 // Action type imports
 import {
@@ -26,11 +26,11 @@ import {
 export const login = (user, history) => dispatch => {
   dispatch({ type: LOGIN_START });
   axios
-    .post("/api/auth/login", user)
+    .post("https://lambda-anywhere-fitness.herokuapp.com/api/auth/login", user)
     .then(res => {
       localStorage.setItem("token", res.data.token);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
-      history.push(`/user/${res.data.id}`);
+      history.push(`/user/${res.data.user.id}`);
     })
     .catch(err => {
       dispatch({ type: LOGIN_FAIL, payload: err.response });
@@ -48,9 +48,10 @@ export const login = (user, history) => dispatch => {
   roleId*
 */
 export const register = (newUser, history) => dispatch => {
+  console.log("registering", newUser)
   dispatch({ type: REGISTER_START });
   axios
-    .post("/api/auth/register", newUser)
+    .post("https://lambda-anywhere-fitness.herokuapp.com/api/auth/register", newUser)
     .then(res => {
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       history.push(`/login`);
