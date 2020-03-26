@@ -8,7 +8,13 @@ import {
   LOGIN_FAIL,
   REGISTER_START,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  FETCH_CLASSES_START,
+  FETCH_CLASSES_SUCCESS,
+  FETCH_CLASSES_FAIL,
+  FETCH_CATEGORIES_START,
+  FETCH_CATEGORIES_SUCCESS,
+  FETCH_CATEGORIES_FAIL
 } from "./../constants/ActionTypes";
 
 // Login
@@ -22,9 +28,9 @@ export const login = (user, history) => dispatch => {
   axios
     .post("/api/auth/login", user)
     .then(res => {
-      localStorage.setItem('token', res.data.token);
+      localStorage.setItem("token", res.data.token);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
-      history.push(`/user/${res.data.id}`)
+      history.push(`/user/${res.data.id}`);
     })
     .catch(err => {
       dispatch({ type: LOGIN_FAIL, payload: err.response });
@@ -63,6 +69,17 @@ export const register = (newUser, history) => dispatch => {
 // Get all categories
 // GET /api/category
 /* Request shape: None */
+export const getCategories = () => dispatch => {
+  dispatch({ type: FETCH_CATEGORIES_START });
+  axiosWithAuth()
+    .get("/api/category")
+    .then(res => {
+      dispatch({ type: FETCH_CATEGORIES_SUCCESS, payload: res.data });
+    })
+    .catch(err => {
+      dispatch({ type: FETCH_CATEGORIES_FAIL, payload: err.response });
+    });
+};
 
 // Add new category
 // POST /api/category
@@ -88,6 +105,17 @@ export const register = (newUser, history) => dispatch => {
 // Get all classes
 // GET /api/classes
 /* Request shape: None */
+export const getClasses = () => dispatch => {
+  dispatch({ type: FETCH_CLASSES_START });
+  axiosWithAuth()
+    .get("/api/classes")
+    .then(res => {
+      dispatch({ type: FETCH_CLASSES_SUCCESS, payload: res.data });
+    })
+    .catch(err => {
+      dispatch({ type: FETCH_CLASSES_FAIL, payload: err.response });
+    });
+};
 
 // Add new class
 // POST /api/classes
