@@ -1,4 +1,12 @@
+import axios from "axios";
+import { axiosWithAuth } from "./../utils";
 
+// Action type imports
+import {
+  LOGIN_START,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL
+} from "./../constants/ActionTypes";
 
 // Login
 // POST /api/auth/login
@@ -6,6 +14,19 @@
   username*
   password*
 */
+export const login = (username, password) => dispatch => {
+  dispatch({ type: LOGIN_START });
+  axios
+    .post("/api/auth/login", { username, password })
+    .then(res => {
+      console.log(res);
+      localStorage.setItem('token', res.data.token);
+      dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+    })
+    .catch(err => {
+      dispatch({ type: LOGIN_FAIL, payload: err.response });
+    });
+};
 
 // Register new user
 // POST /api/auth/register
