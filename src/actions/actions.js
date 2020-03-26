@@ -6,6 +6,7 @@ import {
   LOGIN_START,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGOUT,
   REGISTER_START,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -36,6 +37,10 @@ export const login = (user, history) => dispatch => {
       dispatch({ type: LOGIN_FAIL, payload: err.response });
     });
 };
+
+export const logout = () => dispatch => {
+  dispatch({ type: LOGOUT })
+}
 
 // Register new user
 // POST /api/auth/register

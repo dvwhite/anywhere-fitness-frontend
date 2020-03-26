@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 // Actions
@@ -6,6 +6,7 @@ import { logout } from "./../actions/actions";
 
 // Styled components
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
 const NavWrapper = styled.div`
   display: flex;
@@ -20,19 +21,29 @@ const Title = styled.h1`
 `;
 
 const Header = () => {
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    localStorage.removeItem("token");
+    setToken(localStorage.getItem("token"));
+    dispatch(logout());
+  }
+  
   return (
-    <NavWrapper>
-      <Title>Anywhere Fitness</Title>
-      <NavLink to="/login">Login</NavLink>
-      <NavLink to="/register">Register</NavLink>
-      {token ? (
-        <NavLink to="/login" onClick={() => logout()}>
-          Logout
-        </NavLink>
-      ) : null}
-    </NavWrapper>
+    <div>
+      <NavWrapper>
+        <Title>Anywhere Fitness</Title>
+        <NavLink to="/login">Login</NavLink>
+        <NavLink to="/register">Register</NavLink>
+        {token ? (
+          <NavLink to="/login" onClick={handleClick}>
+            Logout
+          </NavLink>
+        ) : null}
+      </NavWrapper>
+    </div>
   );
 };
 
-export default Header();
+export default Header;

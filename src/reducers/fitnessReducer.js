@@ -3,6 +3,7 @@ import {
   LOGIN_START,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGOUT,
   REGISTER_START,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -57,6 +58,11 @@ export const fitnessReducer = (state = initialState, action) => {
         error: action.payload,
         isFetching: false
       };
+    // Logout
+    case LOGOUT:
+      return {
+        ...initialState
+      }
     // Registration
     case REGISTER_START:
       return {
