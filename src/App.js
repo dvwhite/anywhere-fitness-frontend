@@ -5,13 +5,14 @@ import './App.scss';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 // Component imports
+import Header from './components/Header';
 import MasterRouter from './components/MasterRouter';
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <h1>Anywhere Fitness</h1>
+        <Header />
         <MasterRouter />
       </div>
     </Router>
