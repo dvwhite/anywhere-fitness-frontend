@@ -59,7 +59,7 @@ export const register = (newUser, history) => dispatch => {
     .post("https://lambda-anywhere-fitness.herokuapp.com/api/auth/register", newUser)
     .then(res => {
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
-      history.push(`/login`);
+      dispatch(login({username: newUser.username, password: newUser.password}, history));
     })
     .catch(err => {
       dispatch({ type: REGISTER_FAIL, payload: err.response });
