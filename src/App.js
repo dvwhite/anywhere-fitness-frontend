@@ -53,4 +53,5 @@ const RightSlide = props => {
 
   )
 }
+
 export default App;
