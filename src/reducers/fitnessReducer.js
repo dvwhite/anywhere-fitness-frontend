@@ -1,18 +1,28 @@
-// import actions here
-
+// Action type constants
 import {
   LOGIN_START,
   LOGIN_SUCCESS,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  LOGOUT,
+  REGISTER_START,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  FETCH_CLASSES_START,
+  FETCH_CLASSES_SUCCESS,
+  FETCH_CLASSES_FAIL,
+  FETCH_CATEGORIES_START,
+  FETCH_CATEGORIES_SUCCESS,
+  FETCH_CATEGORIES_FAIL
 } from "../constants/ActionTypes";
 
+// Initial app state for the reducer
 const initialState = {
   categories: [],
   classes: [],
   message: "",
   user: {
     id: 0,
-    firstName: null,
+    firstName: null,  
     lastName: null,
     email: null,
     username: "",
@@ -26,9 +36,9 @@ const initialState = {
 };
 
 // The main reducer for the fitness app
-
 export const fitnessReducer = (state = initialState, action) => {
   switch (action.type) {
+    // Login
     case LOGIN_START:
       return {
         ...state,
@@ -48,7 +58,69 @@ export const fitnessReducer = (state = initialState, action) => {
         error: action.payload,
         isFetching: false
       };
+    // Logout
+    case LOGOUT:
+      return {
+        ...initialState
+      }
+    // Registration
+    case REGISTER_START:
+      return {
+        ...state,
+        error: "",
+        isFetching: true
+      };
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        isFetching: false
+      };
+    case REGISTER_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        isFetching: false
+      };
+    // Get all categories
+    case FETCH_CATEGORIES_START:
+      return {
+        ...state,
+        error: "",
+        isFetching: true
+      };
+    case FETCH_CATEGORIES_SUCCESS:
+      return {
+        ...state,
+        categories: action.payload,
+        isFetching: false
+      };
+    case FETCH_CATEGORIES_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        isFetching: false
+      };
+    // Get all classes
+    case FETCH_CLASSES_START:
+      return {
+        ...state,
+        error: "",
+        isFetching: true
+      };
+    case FETCH_CLASSES_SUCCESS:
+      return {
+        ...state,
+        classes: action.payload,
+        isFetching: false
+      };
+    case FETCH_CLASSES_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        isFetching: false
+      };
     default:
       return state;
-  }
+  };
 };

@@ -1,14 +1,21 @@
 import axios from "axios";
-import { axiosWithAuth } from "./../utils";
+import { axiosWithAuth } from "./../utils/axiosWithAuth";
 
 // Action type imports
 import {
   LOGIN_START,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGOUT,
   REGISTER_START,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  FETCH_CLASSES_START,
+  FETCH_CLASSES_SUCCESS,
+  FETCH_CLASSES_FAIL,
+  FETCH_CATEGORIES_START,
+  FETCH_CATEGORIES_SUCCESS,
+  FETCH_CATEGORIES_FAIL
 } from "./../constants/ActionTypes";
 
 // Login
@@ -20,16 +27,20 @@ import {
 export const login = (user, history) => dispatch => {
   dispatch({ type: LOGIN_START });
   axios
-    .post("/api/auth/login", user)
+    .post("https://lambda-anywhere-fitness.herokuapp.com/api/auth/login", user)
     .then(res => {
-      localStorage.setItem('token', res.data.token);
+      localStorage.setItem("token", res.data.token);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
-      history.push(`/user/${res.data.id}`)
+      history.push(`/user/${res.data.user.id}`);
     })
     .catch(err => {
       dispatch({ type: LOGIN_FAIL, payload: err.response });
     });
 };
+
+export const logout = () => dispatch => {
+  dispatch({ type: LOGOUT })
+}
 
 // Register new user
 // POST /api/auth/register
@@ -42,9 +53,10 @@ export const login = (user, history) => dispatch => {
   roleId*
 */
 export const register = (newUser, history) => dispatch => {
+  console.log("registering", newUser)
   dispatch({ type: REGISTER_START });
   axios
-    .post("/api/auth/register", newUser)
+    .post("https://lambda-anywhere-fitness.herokuapp.com/api/auth/register", newUser)
     .then(res => {
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       history.push(`/login`);
@@ -63,6 +75,17 @@ export const register = (newUser, history) => dispatch => {
 // Get all categories
 // GET /api/category
 /* Request shape: None */
+export const getCategories = () => dispatch => {
+  dispatch({ type: FETCH_CATEGORIES_START });
+  axiosWithAuth()
+    .get("/api/category")
+    .then(res => {
+      dispatch({ type: FETCH_CATEGORIES_SUCCESS, payload: res.data });
+    })
+    .catch(err => {
+      dispatch({ type: FETCH_CATEGORIES_FAIL, payload: err.response });
+    });
+};
 
 // Add new category
 // POST /api/category
@@ -88,6 +111,17 @@ export const register = (newUser, history) => dispatch => {
 // Get all classes
 // GET /api/classes
 /* Request shape: None */
+export const getClasses = () => dispatch => {
+  dispatch({ type: FETCH_CLASSES_START });
+  axiosWithAuth()
+    .get("/api/classes")
+    .then(res => {
+      dispatch({ type: FETCH_CLASSES_SUCCESS, payload: res.data });
+    })
+    .catch(err => {
+      dispatch({ type: FETCH_CLASSES_FAIL, payload: err.response });
+    });
+};
 
 // Add new class
 // POST /api/classes
