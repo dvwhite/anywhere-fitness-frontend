@@ -29,8 +29,11 @@ export const login = (user, history) => dispatch => {
   axios
     .post("https://lambda-anywhere-fitness.herokuapp.com/api/auth/login", user)
     .then(res => {
+      // Store the token in local storage
       localStorage.setItem("token", res.data.token);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+
+      // Redirect to the user page
       history.push(`/user/${res.data.user.id}`);
     })
     .catch(err => {
@@ -53,7 +56,6 @@ export const logout = () => dispatch => {
   roleId*
 */
 export const register = (newUser, history) => dispatch => {
-  console.log("registering", newUser)
   dispatch({ type: REGISTER_START });
   axios
     .post("https://lambda-anywhere-fitness.herokuapp.com/api/auth/register", newUser)
