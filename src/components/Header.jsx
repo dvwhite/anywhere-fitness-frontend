@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, useParams } from "react-router-dom";
 
 // Actions
 import { logout } from "./../actions/actions";
 
 // Styled components
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const NavWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 100%;
+  width: 100vw;
 `;
 
 const Title = styled.h1`
@@ -21,28 +21,24 @@ const Title = styled.h1`
 `;
 
 const Header = () => {
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const params = useParams();
+  const id = params.id;
   const dispatch = useDispatch();
 
   const handleClick = () => {
     localStorage.removeItem("token");
-    setToken(localStorage.getItem("token"));
     dispatch(logout());
-  }
-  
+  };
+
   return (
-    <div>
-      <NavWrapper>
-        <Title>Anywhere Fitness</Title>
-        <NavLink to="/login">Login</NavLink>
-        <NavLink to="/register">Register</NavLink>
-        {token ? (
-          <NavLink to="/login" onClick={handleClick}>
-            Logout
-          </NavLink>
-        ) : null}
-      </NavWrapper>
-    </div>
+    <NavWrapper>
+      <Title>Anywhere Fitness</Title>
+      <NavLink to={`/user/${id}/classes`}>Classes</NavLink>
+      <NavLink to={`/user/${id}/profile`}>Profile</NavLink>
+      <NavLink to="/login" onClick={handleClick}>
+        Logout
+      </NavLink>
+    </NavWrapper>
   );
 };
 
