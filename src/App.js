@@ -1,5 +1,7 @@
 import React from 'react';
 import './App.scss';
+
+// Components
 import MasterRouter from "./components/MasterRouter";
 
 class App extends React.Component{

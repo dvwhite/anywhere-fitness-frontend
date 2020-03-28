@@ -1,9 +1,15 @@
 //Custom Fonts
 @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .App {
   text-align: center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-family: "Open Sans", sans-serif;
