@@ -12,10 +12,10 @@ import Class from './Class';
 const MasterRouter = () => {
   return (
     <Switch>
-      <PrivateRoute path='/user/:id' component={UserHome} />
-      <PrivateRoute path='/user/:id/profile' component={Profile} />
-      <PrivateRoute path='/user/:id/classes' component={Classes} />
-      <PrivateRoute path='/user/:id/classes/:id' component={Class} />
+      <PrivateRoute exact path='/user/:id' component={UserHome} />
+      <PrivateRoute exact path='/user/:id/profile' component={Profile} />
+      <PrivateRoute exact path='/user/:id/classes' component={Classes} />
+      <PrivateRoute exact path='/user/:id/classes/:id' component={Class} />
       <Route exact path="/" render={() => <Redirect to="/login" />} />
       <Route exact path='/login' render={props => <LoginContainer {...props} isLoginActive={true}/>} />
       <Route exact path='/register' render={props => <LoginContainer {...props} isLoginActive={false}/>} />
