@@ -13,7 +13,6 @@ const MasterRouter = () => {
   return (
     <Switch>
       <PrivateRoute exact path='/user/:id' component={UserHome} />
-      <PrivateRoute exact path='/user/:id/profile' component={Profile} />
       <PrivateRoute exact path='/user/:id/classes' component={Classes} />
       <PrivateRoute exact path='/user/:id/classes/:id' component={Class} />
       <Route exact path="/" render={() => <Redirect to="/login" />} />

@@ -63,7 +63,7 @@ const CardContent = styled.div`
   & > h4 {
     font-size: 1.2rem;
     color: #444;
-    margin: 4%;
+    margin: 3.5%;
     font-weight: bold;
     overflow: hidden;
   }

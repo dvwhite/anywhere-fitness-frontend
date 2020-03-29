@@ -109,6 +109,7 @@ const Button = styled.div`
 const Class = () => {
   // Local state
   const [data, setData] = useState(null);
+  const user = useSelector(state => state.user);
   const classes = useSelector(state => state.classes);
   const categories = useSelector(state => state.categories);
 
@@ -150,7 +151,7 @@ const Class = () => {
               <h2>{data?.title}</h2>
               <p>Instructor: #{data?.instructorId}</p>
               <p>Category: {formattedCategory}</p>
-              <Button>Sign Up</Button>
+              {user && user.roleId === 1 ? <Button>Sign Up</Button> : null}
               </Row>
             </Card>
         </CoverBottom>

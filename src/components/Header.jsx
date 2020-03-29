@@ -35,7 +35,7 @@ const Header = () => {
     <NavWrapper>
       <Title>Anywhere Fitness</Title>
       <NavLink to={`/user/${id}/classes`}>Classes</NavLink>
-      <NavLink to={`/user/${id}/profile`}>Profile</NavLink>
+      <NavLink to={`/user/${id}`}>Home</NavLink>
       <NavLink to="/login" onClick={handleClick}>
         Logout
       </NavLink>
