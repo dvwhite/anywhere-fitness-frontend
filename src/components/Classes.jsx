@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Actions
-import { getClasses, getCategories } from "./../actions/actions";
+import { getClasses } from "./../actions/actions";
 
 // Component imports
 import ClassCard from "./ClassCard";
@@ -33,11 +33,6 @@ const Classes = () => {
   // Get all classes on mount, store in state
   useEffect(() => {
     dispatch(getClasses());
-  }, [dispatch]);
-
-  // Get all categories on mount, store in state
-  useEffect(() => {
-    dispatch(getCategories());
   }, [dispatch]);
 
   return (
