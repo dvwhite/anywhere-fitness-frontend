@@ -3,7 +3,14 @@
 
 a {
   text-decoration: none;
-  color: inherit;
+  color: #444;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+p {
+  margin: 0;
+  padding: 0;
 }
 
 .App {
