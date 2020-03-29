@@ -44,14 +44,6 @@ export const Login = props => {
                   <label htmlFor="password">Password: </label>
                   <input type="text" name="password" placeholder="Please enter your password" value={input.password} onChange={handleChange}/>
               </div>
-
-              <div className="form-group">
-                  <label htmlFor="role">Sign In As: </label>
-                  <select onChange={handleChange} name="role">
-                      <option value={1}>Client</option>
-                      <option value={2}>Instructor</option>
-                  </select>
-              </div>
           </form>
         </div>
         <div className="footer">
