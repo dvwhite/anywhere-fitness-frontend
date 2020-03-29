@@ -15,7 +15,13 @@ import {
   FETCH_CLASSES_FAIL,
   FETCH_CATEGORIES_START,
   FETCH_CATEGORIES_SUCCESS,
-  FETCH_CATEGORIES_FAIL
+  FETCH_CATEGORIES_FAIL,
+  FETCH_USER_CLASSES_START,
+  FETCH_USER_CLASSES_SUCCESS,
+  FETCH_USER_CLASSES_FAIL,
+  SIGNUP_START,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAIL
 } from "./../constants/ActionTypes";
 
 // Login
@@ -171,9 +177,41 @@ export const getClasses = () => dispatch => {
 /* Request shape:
   id
 */
+export const signupUserClass = id => dispatch => {
+  dispatch({ type: SIGNUP_START })
+  axiosWithAuth().post(`/api/user/classes/${id}`)
+    .then(res => {
+      console.log(res)
+      dispatch({ type: SIGNUP_SUCCESS, payload: res.data})
+    })
+    .catch(err => {
+      dispatch({ type: SIGNUP_FAIL, payload: err.response})
+    })
+}
 
 // Remove user from the class
 // DELETE /api/user/classes/:id
 /* Request shape:
   id
 */
+
+// Get all classes for the logged in user
+// GET /api/user/classes
+/* Request shape: None */
+
+export const getUserClasses = (classes) => dispatch => {
+  dispatch({ type: FETCH_USER_CLASSES_START })
+  axiosWithAuth().get('/api/user/classes')
+    .then(res => {
+      const classObjs = [];
+      res.data.forEach(classFromRes => {
+        const classToFind = classes.find(classObj => Number(classObj.id) === Number(classFromRes.classId));
+        classToFind && classObjs.push(classToFind);
+      })
+      dispatch({ type: FETCH_USER_CLASSES_SUCCESS, payload: classObjs })
+
+    })
+    .catch(err => {
+      dispatch({ type: FETCH_USER_CLASSES_FAIL, payload: err.response })
+    })
+}
