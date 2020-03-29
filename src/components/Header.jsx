@@ -16,8 +16,9 @@ const NavWrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  color: #444;
+  color: #EA1676;
   font-weight: bold;
+  text-shadow: 1px 2px 10px #3498DB;
 `;
 
 const Header = () => {
