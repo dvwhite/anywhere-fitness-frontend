@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getClasses, getCategories } from "./../actions/actions";
 
 // Component imports
-import Class from "./Class";
+import ClassCard from "./ClassCard";
 import Header from "./Header";
 
 // Styled components
@@ -39,18 +39,7 @@ const Classes = () => {
       <Header />
       <Cards>
         {classes &&
-          classes.map((classData, idx) => (
-            <Class
-              data={{
-                ...classData,
-                category: categories.find(
-                  category =>
-                    Number(category.id) === Number(classData.categoryId)
-                )
-              }}
-              key={idx}
-            />
-          ))}
+          classes.map((classData, idx) => <ClassCard data={classData} key={idx} />)}
       </Cards>
     </div>
   );
