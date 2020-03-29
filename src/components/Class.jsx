@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 // Constants
-import { fakeData } from './../constants/fakeData';
+import { fakeData } from "../constants/fakeData";
 
 // Redux imports
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 
 // Components
-import Header from './Header';
+import Header from "./Header";
+
+// Helpers
+import { getCategories, signupUserClass } from "../actions/actions";
 
 // Styled components
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   background: #444;
-  background: url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f')
+  background: url("https://images.unsplash.com/photo-1571902943202-507ec2618e8f")
     no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -38,7 +41,7 @@ const CoverBottom = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-`
+`;
 
 const CoverTop = styled.div`
   background-color: rgb(255, 255, 255, 0.9);
@@ -50,7 +53,19 @@ const CoverTop = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+
+  @media (max-width: 900px) {
+    width: 70%;
+  }
+
+  @media (max-width: 600px) {
+    width: 80%;
+  }
+
+  @media (max-width: 400px) {
+    width: 100%;
+  }
+`;
 
 const Card = styled.div`
   display: flex;
@@ -62,7 +77,7 @@ const Card = styled.div`
   overflow: hidden;
   transition: all 0.2s ease;
   position: relative;
-`
+`;
 
 const ImgWrapper = styled.div`
   display: flex;
@@ -70,7 +85,7 @@ const ImgWrapper = styled.div`
   align-items: center;
   padding: 2%;
   width: 20em;
-`
+`;
 
 const CardImg = styled.img`
   width: 100%;
@@ -81,7 +96,15 @@ const CardImg = styled.img`
   &:hover {
     border: 2px solid #444;
   }
-`
+
+  @media (max-width: 500px) {
+    width: 80%;
+  }
+
+  @media (max-width: 350px) {
+    width: 30%;
+  }
+`;
 
 const Row = styled.div`
   display: flex;
@@ -89,22 +112,57 @@ const Row = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-`
+`;
 
 const Button = styled.div`
   border-radius: 30px;
-  background-color: #3498DB;
+  background-color: #3498db;
   color: white;
   font-size: 1.1rem;
-  width: 10%;
+  width: 15%;
   padding: 1.5%;
-  margin: 2%;
+  margin-top: 2%;
 
   &:hover {
     background-color: #444;
     color: #whitesmoke;
   }
-`
+
+  @media (max-width: 800px) {
+    font-size: 0.9rem;
+    width: 30%;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 0.9rem;
+    width: 40%;
+  }
+
+  @media (max-width: 200px) {
+    font-size: 0.9rem;
+    width: 60%;
+  }
+`;
+
+const CancelButton = styled(Button)`
+  background-color: #444;
+  color: whitesmoke;
+
+  &:hover {
+    background-color: crimson;
+    color: whitesmoke;
+  }
+`;
+
+const SignedUpButton = styled(Button)`
+  background-color: #ea1676;
+  color: white;
+
+  &:hover {
+    background-color: #ea1676;
+    color: white;
+  }
+`;
 
 const Class = () => {
   // Local state
@@ -125,6 +183,31 @@ const Class = () => {
     return categoryToFind;
   };
 
+  // Check if user is already taking the class
+  const userClassId = user.classes
+    .map(classObj => classObj.id)
+    .find(id => id === data?.id);
+  const userEnrolled = !isNaN(userClassId);
+
+  // Sign up user for the class on button click, if not enrolled
+  const handleEnroll = () => {
+    if (!userEnrolled) {
+      dispatch(signupUserClass(id));
+    }
+  };
+
+  const handleCancel = () => {
+    if (userEnrolled) {
+      // dispatch(cancelUserClass(id));
+    }
+  };
+
+  // Get all categories on mount, store in state
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
+
   useEffect(() => {
     // Get the class from state
     setData(classes.find(classObj => Number(classObj.id) === Number(id)));
@@ -132,7 +215,8 @@ const Class = () => {
 
   // Format the category
   const category = findCategory(data?.categoryId);
-  const formattedCategory = category && category.name[0].toUpperCase() + category.name.slice(1);
+  const formattedCategory =
+    category && category.name[0].toUpperCase() + category.name.slice(1);
   const classImg = fakeData.imgClasses[data?.id];
 
   return (
@@ -141,23 +225,37 @@ const Class = () => {
       <Wrapper>
         <CoverBottom>
           <CoverTop />
-            <Card>
-              <Row>
-                <ImgWrapper>
-                  {classImg && <CardImg src={`${classImg}`} alt={`image of a ${data.name} class`}/>}
-                </ImgWrapper>
-              </Row>
-              <Row>
+          <Card>
+            <Row>
+              <ImgWrapper>
+                {classImg && (
+                  <CardImg
+                    src={`${classImg}`}
+                    alt={`image of a ${data.name} class`}
+                  />
+                )}
+              </ImgWrapper>
+            </Row>
+            <Row>
               <h2>{data?.title}</h2>
               <p>Instructor: #{data?.instructorId}</p>
               <p>Category: {formattedCategory}</p>
-              {user && user.roleId === 1 ? <Button>Sign Up</Button> : null}
-              </Row>
-            </Card>
+              {user && user.roleId === 1 ? (
+                userEnrolled ? (
+                  <SignedUpButton>Signed Up</SignedUpButton>
+                ) : (
+                  <Button onClick={handleEnroll}>Sign Up</Button>
+                )
+              ) : null}
+              {userEnrolled && (
+                <CancelButton onClick={handleCancel}>Cancel</CancelButton>
+              )}
+            </Row>
+          </Card>
         </CoverBottom>
       </Wrapper>
     </>
-  )
-}
+  );
+};
 
 export default Class;
