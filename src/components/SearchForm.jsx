@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from 'styled-components';
 import useLocalStorage from 'react-use-localstorage';
 
@@ -7,23 +7,35 @@ const CenteredDiv = styled.div`
   justify-content: center;
   align-items: center
   margin: 2%;
-  position: relative;
 `
 
 const Input = styled.input`
-  margin-top: 8%;
-  width: 20rem;
+  margin-top: 2%;
+  width: 20%;
+  font-size: 1.1rem;
   border-radius: 25px;
   border: 1px solid gray;
   outline: 0;
-  padding: 2%;
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Vector_search_icon.svg/945px-Vector_search_icon.svg.png');
   background-repeat: no-repeat;
   background-size: 20px 20px;
   background-position: 2% 50%;
-  padding-right: 5%;
-  padding-left: 10%;
-`
+  padding: 1% 2.5%;
+
+  @media (max-width: 1200px) {
+    padding-left: 4%;
+  }
+
+  @media (max-width: 1000px) {
+    width: 33%;
+    padding-left: 5%;
+  }
+
+  @media (max-width: 550px) {
+    width: 50%;
+    padding-left: 7%;
+  }
+  `
 
 const SearchForm = ({classes, setResults}) => {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', "");
@@ -40,16 +52,14 @@ const SearchForm = ({classes, setResults}) => {
   }, [searchTerm]);
 
   return (
-    <CenteredDiv className="search-form">
-     <label>
-       <Input
+    <CenteredDiv>
+      <Input
         type="text"
         name="search"
         value={searchTerm}
         placeholder="Search for a class..."
         onChange={handleChange}
-       />
-     </label>
+      />
     </CenteredDiv>
   );
 }
