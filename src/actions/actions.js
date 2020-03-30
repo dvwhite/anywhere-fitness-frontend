@@ -184,7 +184,6 @@ export const signupUserClass = id => dispatch => {
   dispatch({ type: SIGNUP_START })
   axiosWithAuth().post(`/api/user/classes/${id}`)
     .then(res => {
-      console.log(res)
       dispatch({ type: SIGNUP_SUCCESS, payload: res.data})
     })
     .catch(err => {
@@ -201,7 +200,6 @@ export const removeUserClass = id => dispatch => {
   dispatch({ type: DELETE_START })
   axiosWithAuth().delete(`/api/user/classes/${id}`)
     .then(res => {
-      console.log(res)
       dispatch({ type: DELETE_SUCCESS, payload: id})
     })
     .catch(err => {

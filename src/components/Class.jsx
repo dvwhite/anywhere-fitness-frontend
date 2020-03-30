@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Header from "./Header";
 
 // Helpers
-import { getCategories, signupUserClass, removeUserClass } from "../actions/actions";
+import { getCategories, signupUserClass, removeUserClass, getUserClasses } from "../actions/actions";
 
 // Styled components
 import styled from "styled-components";
@@ -167,9 +167,11 @@ const SignedUpButton = styled(Button)`
 const Class = () => {
   // Local state
   const [data, setData] = useState(null);
+  const [userEnrolled, setUserEnrolled] = useState(false);
   const user = useSelector(state => state.user);
   const classes = useSelector(state => state.classes);
   const categories = useSelector(state => state.categories);
+  const dispatch = useDispatch();
 
   // Grab the page id from the url
   const params = useParams();
@@ -183,12 +185,6 @@ const Class = () => {
     return categoryToFind;
   };
 
-  // Check if user is already taking the class
-  const userClassId = user.classes
-    .map(classObj => classObj.id)
-    .find(id => id === data?.id);
-  const userEnrolled = !isNaN(userClassId);
-
   // Sign up user for the class on button click, if not enrolled
   const handleEnroll = () => {
     if (!userEnrolled) {
@@ -196,14 +192,22 @@ const Class = () => {
     }
   };
 
+  // Cancel the user for the class on button click, if enrolled
   const handleCancel = () => {
     if (userEnrolled) {
       dispatch(removeUserClass(id));
     }
   };
 
+  // Check if user is already taking the class
+  useEffect(() => {
+    const userClassId = user.classes
+      .map(classObj => classObj.id)
+      .find(id => id === data?.id);
+    setUserEnrolled(!isNaN(userClassId));
+  }, [user.classes, data])
+
   // Get all categories on mount, store in state
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
@@ -211,7 +215,12 @@ const Class = () => {
   useEffect(() => {
     // Get the class from state
     setData(classes.find(classObj => Number(classObj.id) === Number(id)));
-  }, []);
+  }, [classes, id]);
+
+  // Get user's classes they're signed up for, store in state
+  useEffect(() => {
+    dispatch(getUserClasses(classes));
+  }, [classes]);
 
   // Format the category
   const category = findCategory(data?.categoryId);

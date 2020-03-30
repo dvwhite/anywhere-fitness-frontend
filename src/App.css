@@ -2,6 +2,8 @@
 
 .App {
   text-align: center;
+  background: whitesmoke;
+  width: 100%;
 }
 
 .App-logo {
