@@ -12,7 +12,8 @@ const NavWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 100vw;
+  width: 100%;
+  background: white;
 `;
 
 const Title = styled.h1`

@@ -14,6 +14,7 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   background-color: whitesmoke;
+  width: 100%;
 `
 
 const Cards = styled.div`
@@ -21,7 +22,6 @@ const Cards = styled.div`
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  width: 100vw;
   background-color: whitesmoke;
 `;
 
