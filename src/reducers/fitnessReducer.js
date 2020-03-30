@@ -156,15 +156,14 @@ export const fitnessReducer = (state = initialState, action) => {
         isFetching: true
       };
     case SIGNUP_SUCCESS:
+      console.log("reducer signup:", action.payload)
       return {
         ...state,
         user: {
           ...state.user,
           classes: [
             ...state.user.classes,
-            action.payload.find(
-              classObj => !state.user.classIds.includes(classObj.id)
-            )
+            state.classes.find(classObj => Number(classObj.id) === Number(action.payload.classId))
           ]
         }
       };
@@ -186,7 +185,7 @@ export const fitnessReducer = (state = initialState, action) => {
         user: {
           ...state.user,
           classes: [
-            ...state.user.classes.filter(classObj => classObj.id !== action.payload)
+            ...state.user.classes.filter(classObj => Number(classObj.id) !== Number(action.payload))
           ]
         }
       };
