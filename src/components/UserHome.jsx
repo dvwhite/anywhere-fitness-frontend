@@ -15,6 +15,7 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   background-color: whitesmoke;
+  width: 100%;
   height: 100%;
 `
 
@@ -23,20 +24,12 @@ const Cards = styled.div`
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  background-color: whitesmoke;
 `
 
 const UserHome = props => {
   const dispatch = useDispatch();
   const classes = useSelector(state => state.classes);
   const userClasses = useSelector(state => state.user.classes);
-  console.log("userClasses on mount:", userClasses);
-
-  userClasses &&
-    userClasses.map(classObj =>
-      console.log("mapping over userClasses:", classObj)
-    );
 
   // Get all classes on mount, store in state
   useEffect(() => {
