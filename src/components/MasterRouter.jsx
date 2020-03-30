@@ -3,8 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 // Component imports
 import PrivateRoute from './PrivateRoute';
-import Login from './Login';
-import Register from './Register';
+import LoginContainer from './login/LoginContainer';
 import Profile from './Profile';
 import UserHome from './UserHome';
 import Classes from './Classes';
@@ -13,13 +12,12 @@ import Class from './Class';
 const MasterRouter = () => {
   return (
     <Switch>
-      <PrivateRoute path='/user/:id' component={UserHome} />
-      {/* <PrivateRoute path='/user/:id/profile' component={Profile} />
-      <PrivateRoute path='/user/:id/classes' component={Classes} />
-      <PrivateRoute path='/user/:id/classes/:id' component={Class} /> */}
+      <PrivateRoute exact path='/user/:id' component={UserHome} />
+      <PrivateRoute exact path='/user/:id/classes' component={Classes} />
+      <PrivateRoute exact path='/user/:id/classes/:id' component={Class} />
       <Route exact path="/" render={() => <Redirect to="/login" />} />
-      <Route exact path='/login' component={Login} />
-      <Route exact path='/register' component={Register} />
+      <Route exact path='/login' render={props => <LoginContainer {...props} isLoginActive={true}/>} />
+      <Route exact path='/register' render={props => <LoginContainer {...props} isLoginActive={false}/>} />
     </Switch>
   );
 }
