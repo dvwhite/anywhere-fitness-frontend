@@ -18,7 +18,10 @@ import {
   FETCH_USER_CLASSES_FAIL,
   SIGNUP_START,
   SIGNUP_SUCCESS,
-  SIGNUP_FAIL
+  SIGNUP_FAIL,
+  DELETE_START,
+  DELETE_SUCCESS,
+  DELETE_FAIL
 } from "../constants/ActionTypes";
 
 // Initial app state for the reducer
@@ -157,15 +160,37 @@ export const fitnessReducer = (state = initialState, action) => {
         ...state,
         user: {
           ...state.user,
-          classIds: [
-            ...state.user.classIds,
-            action.payload.filter(
+          classes: [
+            ...state.user.classes,
+            action.payload.find(
               classObj => !state.user.classIds.includes(classObj.id)
-            ).classId
+            )
           ]
         }
       };
     case SIGNUP_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        isFetching: false
+      };
+    case DELETE_START:
+      return {
+        ...state,
+        error: "",
+        isFetching: true
+      };
+    case DELETE_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          classes: [
+            ...state.user.classes.filter(classObj => classObj.id !== action.payload)
+          ]
+        }
+      };
+    case DELETE_FAIL:
       return {
         ...state,
         error: action.payload,

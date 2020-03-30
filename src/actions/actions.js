@@ -21,7 +21,10 @@ import {
   FETCH_USER_CLASSES_FAIL,
   SIGNUP_START,
   SIGNUP_SUCCESS,
-  SIGNUP_FAIL
+  SIGNUP_FAIL,
+  DELETE_START,
+  DELETE_SUCCESS,
+  DELETE_FAIL
 } from "./../constants/ActionTypes";
 
 // Login
@@ -194,6 +197,17 @@ export const signupUserClass = id => dispatch => {
 /* Request shape:
   id
 */
+export const removeUserClass = id => dispatch => {
+  dispatch({ type: DELETE_START })
+  axiosWithAuth().delete(`/api/user/classes/${id}`)
+    .then(res => {
+      console.log(res)
+      dispatch({ type: DELETE_SUCCESS, payload: id})
+    })
+    .catch(err => {
+      dispatch({ type: DELETE_FAIL, payload: err.response})
+    })
+}
 
 // Get all classes for the logged in user
 // GET /api/user/classes

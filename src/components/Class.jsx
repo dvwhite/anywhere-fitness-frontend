@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Header from "./Header";
 
 // Helpers
-import { getCategories, signupUserClass } from "../actions/actions";
+import { getCategories, signupUserClass, removeUserClass } from "../actions/actions";
 
 // Styled components
 import styled from "styled-components";
@@ -198,7 +198,7 @@ const Class = () => {
 
   const handleCancel = () => {
     if (userEnrolled) {
-      // dispatch(cancelUserClass(id));
+      dispatch(removeUserClass(id));
     }
   };
 
